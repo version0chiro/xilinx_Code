@@ -15,21 +15,21 @@ import xir.subgraph
 from Spo2Calulation import face_detect_and_thresh,spartialAverage,MeanRGB,SPooEsitmate,preprocess
 
 def get_subgraph (g):
-	sub = []
-	root = g.get_root_subgraph()
-	sub = [ s for s in root.children
-	if s.metadata.get_attr_str ("device") == "DPU"]
-  	return sub
+    sub = []
+    root = g.get_root_subgraph()
+    sub = [ s for s in root.children
+    if s.metadata.get_attr_str ("device") == "DPU"]
+      return sub
 
 
 # construct the argument parse and parse the arguments
 ap = argparse.ArgumentParser()
 ap.add_argument("-i", "--input", required=False,
-	help = "input camera identifier (default = 0)")
+    help = "input camera identifier (default = 0)")
 ap.add_argument("-d", "--detthreshold", required=False,
-	help = "face detector softmax threshold (default = 0.55)")
+    help = "face detector softmax threshold (default = 0.55)")
 ap.add_argument("-n", "--nmsthreshold", required=False,
-	help = "face detector NMS threshold (default = 0.35)")
+    help = "face detector NMS threshold (default = 0.35)")
 args = vars(ap.parse_args())
 
 if not args.get("input",False):
@@ -76,66 +76,66 @@ totalFrame=250
 # loop over the frames from the video stream
 while True:
     
-	# Capture image from camera
-	ret,frame = cam.read()
-	imgResp = urllib.request.urlopen(url)
-	img = cv2.imdecode(imgResp,-1)
+    # Capture image from camera
+    ret,frame = cam.read()
+    imgResp = urllib.request.urlopen(url)
+    img = cv2.imdecode(imgResp,-1)
  
-	frame = imutils.resize(img,width=400)
-	# Vitis-AI/DPU based face detector
-	faces = dpu_face_detector.process(frame)
-	boxFrame = frame.copy()
-		
-	# loop over the faces
-	# for i,(left,top,right,bottom) in enumerate(faces): 
+    frame = imutils.resize(img,width=400)
+    # Vitis-AI/DPU based face detector
+    faces = dpu_face_detector.process(frame)
+    boxFrame = frame.copy()
+        
+    # loop over the faces
+    # for i,(left,top,right,bottom) in enumerate(faces): 
 
-	# 	# draw a bounding box surrounding the object so we can
-	# 	# visualize it
-	# 	cv2.rectangle( frame, (left,top), (right,bottom), (0,255,0), 2)
-	try:
- 		(startX, startY, endX, endY) = faces.astype('int')
-		startX2=int(int((endX+startX)/2)-50*1.3)
-		endX2=int(int((endX+startX)/2)+50*1.3)
-		startY2=int(int((endY+startY)/2)-50*1.3)
-		endY2=int(int((endY+startY)/2)+50*1.3)
-		cv2.rectangle(frame, (startX2, startY2), (endX2, endY2),(0, 0, 255), 2)
+    #     # draw a bounding box surrounding the object so we can
+    #     # visualize it
+    #     cv2.rectangle( frame, (left,top), (right,bottom), (0,255,0), 2)
+    try:
+         (startX, startY, endX, endY) = faces.astype('int')
+        startX2=int(int((endX+startX)/2)-50*1.3)
+        endX2=int(int((endX+startX)/2)+50*1.3)
+        startY2=int(int((endY+startY)/2)-50*1.3)
+        endY2=int(int((endY+startY)/2)+50*1.3)
+        cv2.rectangle(frame, (startX2, startY2), (endX2, endY2),(0, 0, 255), 2)
 
-		boxFrame = boxFrame[startY2:endY2,startX2:endX2]
-	
-	except:
-		boxFrame = boxFrame[int(100*0.9):int(200*1.1),int(150*0.9):int(250*1.1)]
+        boxFrame = boxFrame[startY2:endY2,startX2:endX2]
+    
+    except:
+        boxFrame = boxFrame[int(100*0.9):int(200*1.1),int(150*0.9):int(250*1.1)]
 
-	height, width, channels = faceFrame.shape
+    height, width, channels = faceFrame.shape
  
-	if height>0 and width>0:
-		lastfaceFrame = boxFrame
+    if height>0 and width>0:
+        lastfaceFrame = boxFrame
   
-	else:
-		boxFrame = lastfaceFrame
+    else:
+        boxFrame = lastfaceFrame
  
-	if frameCount ==0:
-		thresh,mask=face_detect_and_thresh(boxFrame)
-		temp,min_value,max_value=spartialAverage(mask,boxFrame)
-	
-	elif frameCount<totalFrame and frameCount>1:
-		thresh,mask=face_detect_and_thresh(faceFrame)
-		final_sig.append(MeanRGB(thresh,faceFrame,final_sig[-1],min_value,max_value))
-	
-	if frameCount==totalFrame:
-		result = SPooEsitmate(final_sig,totalFrame)
-		print(result)
- 	# Display the processed image
-	cv2.imshow("Face Detection", frame)
-	frameCount = frameCount + 1
-	
-	key = cv2.waitKey(1) & 0xFF
+    if frameCount ==0:
+        thresh,mask=face_detect_and_thresh(boxFrame)
+        temp,min_value,max_value=spartialAverage(mask,boxFrame)
+    
+    elif frameCount<totalFrame and frameCount>1:
+        thresh,mask=face_detect_and_thresh(faceFrame)
+        final_sig.append(MeanRGB(thresh,faceFrame,final_sig[-1],min_value,max_value))
+    
+    if frameCount==totalFrame:
+        result = SPooEsitmate(final_sig,totalFrame)
+        print(result)
+     # Display the processed image
+    cv2.imshow("Face Detection", frame)
+    frameCount = frameCount + 1
+    
+    key = cv2.waitKey(1) & 0xFF
 
-	# Update the FPS counter
-	fps.update()
+    # Update the FPS counter
+    fps.update()
 
-	# if the `q` key was pressed, break from the loop
-	if key == ord("q"):
-		break
+    # if the `q` key was pressed, break from the loop
+    if key == ord("q"):
+        break
 
 # Stop the timer and display FPS information
 fps.stop()
