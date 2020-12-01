@@ -93,9 +93,9 @@ while True:
 
     #     # draw a bounding box surrounding the object so we can
     #     # visualize it
-    cv2.rectangle( frame, (left,top), (right,bottom), (0,255,0), 2)
+    # cv2.rectangle( frame, (left,top), (right,bottom), (0,255,0), 2)
     try:
-        (startX, startY, endX, endY) = faces.astype('int')
+        (startX, startY, endX, endY) = faces[0].astype('int')
         startX2=int(int((endX+startX)/2)-50*1.3)
         endX2=int(int((endX+startX)/2)+50*1.3)
         startY2=int(int((endY+startY)/2)-50*1.3)
