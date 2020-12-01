@@ -6,7 +6,7 @@ import time
 # from scipy import signal
 import sys
 from numpy.linalg import inv
-import dlib
+# import dlib
 import imutils
 import time
 import skin_detector
