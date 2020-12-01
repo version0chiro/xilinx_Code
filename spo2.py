@@ -27,9 +27,9 @@ ap = argparse.ArgumentParser()
 ap.add_argument("-i", "--input", required=False,
     help = "input camera identifier (default = 0)")
 ap.add_argument("-d", "--detthreshold", required=False,
-    help = "face detector softmax threshold (default = 0.55)")
+    help = "face detector softmax threshold (default = 0.75)")
 ap.add_argument("-n", "--nmsthreshold", required=False,
-    help = "face detector NMS threshold (default = 0.35)")
+    help = "face detector NMS threshold (default = 0.55)")
 args = vars(ap.parse_args())
 
 if not args.get("input",False):
@@ -93,7 +93,7 @@ while True:
 
     #     # draw a bounding box surrounding the object so we can
     #     # visualize it
-    #     cv2.rectangle( frame, (left,top), (right,bottom), (0,255,0), 2)
+    cv2.rectangle( frame, (left,top), (right,bottom), (0,255,0), 2)
     try:
         (startX, startY, endX, endY) = faces.astype('int')
         startX2=int(int((endX+startX)/2)-50*1.3)
@@ -125,7 +125,7 @@ while True:
         final_sig.append(MeanRGB(thresh,boxFrame,final_sig[-1],min_value,max_value))
     
     if frameCount==totalFrame:
-        result = SPooEsitmate(final_sig,totalFrame)
+        result = SPooEsitmate(final_sig,totalFrame,totalFrame,10)
         print(result)
         break
      # Display the processed image
