@@ -93,7 +93,7 @@ while True:
     #     # visualize it
     #     cv2.rectangle( frame, (left,top), (right,bottom), (0,255,0), 2)
     try:
-         (startX, startY, endX, endY) = faces.astype('int')
+        (startX, startY, endX, endY) = faces.astype('int')
         startX2=int(int((endX+startX)/2)-50*1.3)
         endX2=int(int((endX+startX)/2)+50*1.3)
         startY2=int(int((endY+startY)/2)-50*1.3)
@@ -124,6 +124,7 @@ while True:
     if frameCount==totalFrame:
         result = SPooEsitmate(final_sig,totalFrame)
         print(result)
+        break
      # Display the processed image
     cv2.imshow("Face Detection", frame)
     frameCount = frameCount + 1
