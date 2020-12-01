@@ -115,11 +115,12 @@ while True:
     else:
         boxFrame = lastfaceFrame
  
-    if frameCount ==0:
+    if frameCount == 0:
         thresh,mask=face_detect_and_thresh(boxFrame)
         temp,min_value,max_value=spartialAverage(mask,boxFrame)
+        final_sig.append(temp)
     
-    elif frameCount<totalFrame and frameCount>1:
+    elif frameCount<totalFrame and frameCount>1 :
         thresh,mask=face_detect_and_thresh(boxFrame)
         final_sig.append(MeanRGB(thresh,boxFrame,final_sig[-1],min_value,max_value))
     
