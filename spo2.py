@@ -19,7 +19,7 @@ def get_subgraph (g):
     root = g.get_root_subgraph()
     sub = [ s for s in root.children
     if s.metadata.get_attr_str ("device") == "DPU"]
-      return sub
+    return sub
 
 
 # construct the argument parse and parse the arguments
