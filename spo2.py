@@ -67,7 +67,7 @@ cam.set(cv2.CAP_PROP_FRAME_HEIGHT,480)
 if not (cam.isOpened()):
     print("[ERROR] Failed to open camera ", inputId )
     exit()
-url='http://192.168.1.107:8080/shot.jpg'
+url='http://192.168.1.104:8080/shot.jpg'
 
 # start the FPS counter
 fps = FPS().start()
