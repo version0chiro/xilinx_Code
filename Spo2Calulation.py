@@ -3,7 +3,7 @@ import imutils
 import numpy as np
 import time
 # from face_detection import FaceDetection
-from scipy import signal
+# from scipy import signal
 import sys
 from numpy.linalg import inv
 import dlib
