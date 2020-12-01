@@ -4,7 +4,7 @@ import imutils
 import time
 import cv2
 import os, errno
-
+import urllib.request
 from imutils.video import FPS
 
 from vitis_ai_vart.facedetect import FaceDetect
