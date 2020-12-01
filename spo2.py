@@ -73,6 +73,7 @@ url='http://192.168.1.104:8080/shot.jpg'
 fps = FPS().start()
 frameCount = 0
 totalFrame=250
+final_sig=[]
 # loop over the frames from the video stream
 while True:
     
@@ -106,7 +107,7 @@ while True:
     except:
         boxFrame = boxFrame[int(100*0.9):int(200*1.1),int(150*0.9):int(250*1.1)]
 
-    height, width, channels = faceFrame.shape
+    height, width, channels = boxFrame.shape
  
     if height>0 and width>0:
         lastfaceFrame = boxFrame
@@ -119,8 +120,8 @@ while True:
         temp,min_value,max_value=spartialAverage(mask,boxFrame)
     
     elif frameCount<totalFrame and frameCount>1:
-        thresh,mask=face_detect_and_thresh(faceFrame)
-        final_sig.append(MeanRGB(thresh,faceFrame,final_sig[-1],min_value,max_value))
+        thresh,mask=face_detect_and_thresh(boxFrame)
+        final_sig.append(MeanRGB(thresh,boxFrame,final_sig[-1],min_value,max_value))
     
     if frameCount==totalFrame:
         result = SPooEsitmate(final_sig,totalFrame)
