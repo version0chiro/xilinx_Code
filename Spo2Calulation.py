@@ -2,7 +2,7 @@ import cv2
 import imutils
 import numpy as np
 import time
-from face_detection import FaceDetection
+# from face_detection import FaceDetection
 from scipy import signal
 import sys
 from numpy.linalg import inv
