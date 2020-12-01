@@ -77,9 +77,10 @@ totalFrame=250
 while True:
     
     # Capture image from camera
-    ret,frame = cam.read()
+    # ret,frame = cam.read()
     imgResp = urllib.request.urlopen(url)
-    img = cv2.imdecode(imgResp,-1)
+    imgNp = np.array(bytearray(imgResp.read()),dtype=np.uint8)
+    img = cv2.imdecode(imgNp,-1)
  
     frame = imutils.resize(img,width=400)
     # Vitis-AI/DPU based face detector
