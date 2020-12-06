@@ -67,7 +67,7 @@ cam.set(cv2.CAP_PROP_FRAME_HEIGHT,480)
 if not (cam.isOpened()):
     print("[ERROR] Failed to open camera ", inputId )
     exit()
-url='http://192.168.1.104:8080/shot.jpg'
+# url='http://192.168.1.104:8080/shot.jpg'
 
 # start the FPS counter
 fps = FPS().start()
@@ -78,12 +78,12 @@ final_sig=[]
 while True:
     
     # Capture image from camera
-    # ret,frame = cam.read()
-    imgResp = urllib.request.urlopen(url)
-    imgNp = np.array(bytearray(imgResp.read()),dtype=np.uint8)
-    img = cv2.imdecode(imgNp,-1)
+    ret,frame = cam.read()
+    # imgResp = urllib.request.urlopen(url)
+    # imgNp = np.array(bytearray(imgResp.read()),dtype=np.uint8)
+    # img = cv2.imdecode(imgNp,-1)
  
-    frame = imutils.resize(img,width=400)
+    # frame = imutils.resize(img,width=400)
     # Vitis-AI/DPU based face detector
     faces = dpu_face_detector.process(frame)
     boxFrame = frame.copy()
